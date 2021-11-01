@@ -1,0 +1,126 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+
+<div class="">
+	<section id="Inicio" v-if="Controladores.Activo=='Home'">
+		<h1>Programa Para Manejar Direcciones de Clientes</h1>
+		<h3>Por Roman Ferreiras</h3>
+		<p>Pulse en el menu El Boton de Clientes</p>
+	</section>
+	<section id="Clientes" v-if="Controladores.Activo=='Clientes'">
+		<div id="CliPanel">
+			<h1>Clientes</h1>
+			<button type="button" v-on:click="nuevoCliente" class="btn btn-primary"
+					v-bind:disabled="tblClientesStts!='Browse'">
+				Nuevo
+			</button>
+			<button type="button" v-on:click="guardarClientes" class="btn btn-success"
+					v-bind:disabled="tblClientesStts=='Browse'">
+				Guardar
+			</button>
+			<button type="button" v-on:click="cancelarCambiosCliente" class="btn btn-danger"
+					v-bind:disabled="tblClientesStts=='Browse'">
+				Cancelar
+			</button>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>
+							Email
+						</th>
+						<th>
+							Telefono
+						</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="row,i in Clientes" v-on:click="showDetailClientes(row,i,'tClientes')"
+						:class="{selected:i==rowSelected && selectedTable=='tClientes'}">
+						<td>
+							<div v-if="!(i==rowSelected && selectedTable=='tClientes')">
+								{{row.name}}
+
+							</div>
+							<div v-else>
+								<input type="text" v-model="row.name" v-on:change="cambioCliente(i)">
+
+							</div>
+						</td>
+						<td>
+							<div v-if="!(i==rowSelected && selectedTable=='tClientes')">
+								{{row.email}}
+							</div>
+							<div v-else>
+								<input type="text" v-model="row.email" v-on:change="cambioCliente(i)">
+							</div>
+						</td>
+						<td>
+							<div v-if="!(i==rowSelected && selectedTable=='tClientes')">
+								{{row.phone}}
+							</div>
+							<div v-else>
+								<input type="text" v-model="row.phone" v-on:change="cambioCliente(i)">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="DirPanel">
+
+
+			<h1>Direcciones</h1>
+			<button type="button" class="btn btn-primary" v-on:click="nuevoDireciones"
+					v-bind:disabled="tblDirecionesStts!='Browse'">
+				Nuevo
+			</button>
+			<button type="button" class="btn btn-success" v-on:click="guardarDireciones"
+					v-bind:disabled="tblDirecionesStts=='Browse'">
+				Guardar
+			</button>
+			<button type="button" class="btn btn-danger" v-on:click="cancelarCambiosDireciones"
+					v-bind:disabled="tblDirecionesStts=='Browse'">
+				Cancelar
+			</button>
+			<div v-for="row,i in Direciones" v-on:click="showDetailDirecciones(row,i,'tDirecciones')"
+				 :class="{selected:i==rowSelectedAdrr && selectedTableAdrr=='tDirecciones'}">
+				<div v-if="!(i==rowSelectedAdrr && selectedTableAdrr=='tDirecciones')">
+					{{row.city}} {{row.state}},{{row.country}}
+					<h5>{{ row.street }} #{{ row.number }}</h5>
+					<hr>
+
+				</div>
+				<div v-else class="editDir">
+					<div>
+						<label>Ciudad :</label>
+						<input type="text" v-model="row.city" v-on:change="cambioDireccion(i)">
+					</div>
+					<div>
+						<label>Provincia :</label>
+						<input type="text" v-model="row.state" v-on:change="cambioDireccion(i)">
+					</div>
+					<div>
+						<label>Pais :</label>
+						<input type="text" v-model="row.country" v-on:change="cambioDireccion(i)">
+					</div>
+					<div>
+						<label>Calle :</label>
+						<input type="text" v-model="row.street" v-on:change="cambioDireccion(i)">
+					</div>
+					<div>
+						<label>Numero :</label>
+						<input type="text" v-model="row.number" v-on:change="cambioDireccion(i)">
+					</div>
+					<hr>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<section id="Api" v-if="Controladores.Activo=='Api'">
+	</section>
+</div>
